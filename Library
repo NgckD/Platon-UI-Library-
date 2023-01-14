@@ -1,3 +1,7 @@
+
+
+local Library = {}
+
 -- services
 local players = game:GetService("Players")
 local tweenService = game:GetService("TweenService")
@@ -10,8 +14,6 @@ local lp = players.LocalPlayer
 local mouse = lp:GetMouse()
 local viewport = workspace.CurrentCamera.ViewportSize
 local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut)
-
-local Library = {}
 
 function Library:validate(defaults, options)
 	for i, v in pairs(defaults) do
