@@ -48,7 +48,7 @@ function Library:Init(options)
 		GUI["1"]["IgnoreGuiInset"] = true
 
 		-- StarterGui.MyLibrary.Main
-		GUI["2"] = Instance.new("Frame", GUI["1"]);
+		GUI["2"] = Instance.new("CanvasGroup", GUI["1"]);
 		GUI["2"]["BackgroundColor3"] = Color3.fromRGB(41, 41, 41);
 		GUI["2"]["AnchorPoint"] = Vector2.new(0, 0);
 		GUI["2"]["Size"] = UDim2.new(0, 400, 0, 300);
@@ -119,7 +119,7 @@ function Library:Init(options)
 		GUI["8"]["PaddingLeft"] = UDim.new(0, 8);
 
 		-- StarterGui.MyLibrary.Main.TopBar.Close
-		GUI["9"] = Instance.new("ImageLabel", GUI["4"]);
+		GUI["9"] = Instance.new("ImageButton", GUI["4"]);
 		GUI["9"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
 		GUI["9"]["AnchorPoint"] = Vector2.new(1, 0.5);
 		GUI["9"]["Image"] = [[rbxassetid://10884453403]];
@@ -127,6 +127,16 @@ function Library:Init(options)
 		GUI["9"]["Name"] = [[Close]];
 		GUI["9"]["BackgroundTransparency"] = 1;
 		GUI["9"]["Position"] = UDim2.new(1, -8, 0.5, 0);
+		
+		-- StarterGui.Platon.Main.TopBar.Minimise
+		GUI["km"] = Instance.new("ImageButton", GUI["4"]);
+		GUI["km"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+		GUI["km"]["AnchorPoint"] = Vector2.new(1, 0.5);
+		GUI["km"]["Image"] = [[rbxassetid://12151294075]];
+		GUI["km"]["Size"] = UDim2.new(0, 14, 0, 14);
+		GUI["km"]["Name"] = [[Minimise]];
+		GUI["km"]["BackgroundTransparency"] = 1;
+		GUI["km"]["Position"] = UDim2.new(0.9300000071525574, 0, 0.5, 0);
 
 		-- StarterGui.MyLibrary.Main.TopBar.Line
 		GUI["a"] = Instance.new("Frame", GUI["4"]);
@@ -1162,16 +1172,30 @@ function Library:Init(options)
 			return Dropdown
 		end
 		
+		function Library.Close()
+			GUI["2"]:Destroy()
+		end
+		--[[
+		function Library.Minise()
+			Library:tween(GUI["2"], {GroupTransparency = 1})
+		end
 		
+		function Library.Maximise()
+			Library:tween(GUI["2"], {GroupTransparency = 2})
+		end
 		
+		GUI["9"].MouseButton1Click:Connect(function()
+			Library.Close()
+		end)
+		
+		GUI["km"].MouseButton1Click:Connect(function()
+			Library.Minise()
+		end)
+		]]--
 		return Tab
 	end
+	
 	return GUI
-
-end
-
-if game.Players.LocalPlayer.PlayerGui:FindFirstChild("Platon") then
-	game.Players.LocalPlayer.PlayerGui:FindFirstChild("Platon"):Destroy()
 end
 
 return Library
