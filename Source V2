@@ -44,7 +44,7 @@ function Library:Init(options)
 		
 		-- StarterGui.MyLibrary
 		GUI["1"] = Instance.new("ScreenGui", runService:IsStudio() and players.LocalPlayer:WaitForChild("PlayerGui") or coreGui);
-		GUI["1"]["Name"] = [[MyLibrary]];
+		GUI["1"]["Name"] = [[Platon]];
 		GUI["1"]["IgnoreGuiInset"] = true
 
 		-- StarterGui.MyLibrary.Main
@@ -136,6 +136,58 @@ function Library:Init(options)
 		GUI["a"]["Size"] = UDim2.new(1, 0, 0, 1);
 		GUI["a"]["Position"] = UDim2.new(0, 0, 1, 0);
 		GUI["a"]["Name"] = [[Line]];
+		
+		do 
+			local dragPart = GUI["4"]
+			local dragTarget = GUI["2"]
+			local dragging
+			local dragInput
+			local dragStart
+			local startPos
+
+			local function update(input)
+				local delta = input.Position - dragStart
+				dragTarget:TweenPosition(
+					UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y),
+					Enum.EasingDirection.InOut,
+					Enum.EasingStyle.Sine,
+					0.04,
+					true
+				)
+			end
+
+			dragPart.InputBegan:Connect(function(input)
+				if
+					input.UserInputType == Enum.UserInputType.MouseButton1
+					or input.UserInputType == Enum.UserInputType.Touch
+				then
+					dragging = true
+					dragStart = input.Position
+					startPos = dragTarget.Position
+
+					input.Changed:Connect(function()
+						if input.UserInputState == Enum.UserInputState.End then
+							dragging = false
+						end
+					end)
+				end
+			end)
+
+			dragPart.InputChanged:Connect(function(input)
+				if
+					input.UserInputType == Enum.UserInputType.MouseMovement
+					or input.UserInputType == Enum.UserInputType.Touch
+				then
+					dragInput = input
+				end
+			end)
+
+			uis.InputChanged:Connect(function(input)
+				if input == dragInput and dragging then
+					update(input)
+				end
+			end)
+		end
 		
 		-- StarterGui.MyLibrary.Main.ContentContainer
 		GUI["1b"] = Instance.new("Frame", GUI["2"]);
@@ -1116,6 +1168,10 @@ function Library:Init(options)
 	end
 	return GUI
 
+end
+
+if game.Players.LocalPlayer.PlayerGui:FindFirstChild("Platon") then
+	game.Players.LocalPlayer.PlayerGui:FindFirstChild("Platon"):Destroy()
 end
 
 return Library
