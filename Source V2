@@ -1183,11 +1183,11 @@ function Library:Init(options)
 		function Library.Maximise()
 			Library:tween(GUI["2"], {GroupTransparency = 2})
 		end
-		
+		]]--
 		GUI["9"].MouseButton1Click:Connect(function()
 			Library.Close()
 		end)
-		
+		--[[
 		GUI["km"].MouseButton1Click:Connect(function()
 			Library.Minise()
 		end)
